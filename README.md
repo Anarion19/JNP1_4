@@ -1,129 +1,129 @@
 # JNP1_4
 
-Celem zadania jest stworzenie programu symulujÄcego bitwy gwiezdne. Bitwa
-rozgrywa siÄ w przestrzeni miÄdzygwiezdnej pomiÄdzy siĹami Rebelii a Imperium.
-PoniewaĹź chcemy symulowaÄ rĂłĹźne bitwy, naleĹźy przygotowaÄ rozwiÄzanie ogĂłlne.
+Celem zadania jest stworzenie programu symulującego bitwy gwiezdne. Bitwa
+rozgrywa się w przestrzeni międzygwiezdnej pomiędzy siłami Rebelii a Imperium.
+Ponieważ chcemy symulować różne bitwy, należy przygotować rozwiązanie ogólne.
 
-StwĂłrz nastÄpujÄce typy szablonowe.
+Stwórz następujące typy szablonowe.
 
 = Plik rebelfleet.h =
 
 Klasy Explorer<typename U>, StarCruiser<typename U> i XWing<typename U>
-reprezentujÄce statki Rebelii, gdzie U jest typem pĂłl przechowujÄcych
-wytrzymaĹoĹÄ tarczy oraz prÄdkoĹÄ, a w przypadku XWing oraz StarCruiser rĂłwnieĹź
-siĹÄ ataku statku.
+reprezentujące statki Rebelii, gdzie U jest typem pól przechowujących
+wytrzymałość tarczy oraz prędkość, a w przypadku XWing oraz StarCruiser również
+siłę ataku statku.
 
 Klasa Explorer przyjmuje w konstruktorze parametry shield oraz speed typu U,
-a StarCruiser oraz XWing dodatkowo parametr attackPower teĹź typu U. Klasa
-StarCruiser moĹźe przyjmowaÄ speed w zakresie od 99999 do 299795 wĹÄcznie,
-a klasy Explorer oraz XWing w zakresie od 299796 do 2997960 wĹÄcznie. PoprawnoĹÄ
-wartoĹci parametru speed naleĹźy sprawdzaÄ za pomocÄ asercji.
+a StarCruiser oraz XWing dodatkowo parametr attackPower też typu U. Klasa
+StarCruiser może przyjmować speed w zakresie od 99999 do 299795 włącznie,
+a klasy Explorer oraz XWing w zakresie od 299796 do 2997960 włącznie. Poprawność
+wartości parametru speed należy sprawdzać za pomocą asercji.
 
-Klasy Explorer, StarCruiser i XWing udostÄpniajÄ metody publiczne:
-U getShield() â zwraca wytrzymaĹoĹci tarczy,
-U getSpeed() â zwraca prÄdkoĹÄ,
-void takeDamage(U damage) â zmniejsza wytrzymaĹoĹci tarczy o damage, ale nie
-wiÄcej niĹź statek ma aktualnie.
+Klasy Explorer, StarCruiser i XWing udostępniają metody publiczne:
+U getShield() – zwraca wytrzymałości tarczy,
+U getSpeed() – zwraca prędkość,
+void takeDamage(U damage) – zmniejsza wytrzymałości tarczy o damage, ale nie
+więcej niż statek ma aktualnie.
 
-Klasy StarCruiser oraz XWing majÄ dodatkowo metodÄ publicznÄ:
-U getAttackPower() â zwraca siĹÄ ataku statku.
+Klasy StarCruiser oraz XWing mają dodatkowo metodę publiczną:
+U getAttackPower() – zwraca siłę ataku statku.
 
-Klasy Explorer, StarCruiser i XWing majÄ publicznÄ skĹadowÄ valueType
-reprezentujÄcÄ typ U, ktĂłrym zostaĹy sparametryzowane.
+Klasy Explorer, StarCruiser i XWing mają publiczną składową valueType
+reprezentującą typ U, którym zostały sparametryzowane.
 
-Szablony klas Explorer, StarCruiser i XWing powinny byÄ specjalizacjÄ
-ogĂłlniejszego szablonu RebelStarship<typename U, ...>.
+Szablony klas Explorer, StarCruiser i XWing powinny być specjalizacją
+ogólniejszego szablonu RebelStarship<typename U, ...>.
 
 = Plik imperialfleet.h =
 
 Klasy DeathStar<typename U>, ImperialDestroyer<typename U>
-i TIEFighter<typename U> reprezentujÄ statki imperium, gdzie U jest typem pĂłl
-przechowujÄcych wytrzymaĹoĹÄ tarczy i siĹÄ ataku statku.
+i TIEFighter<typename U> reprezentują statki imperium, gdzie U jest typem pól
+przechowujących wytrzymałość tarczy i siłę ataku statku.
 
-Klasy DeathStar, ImperialDestroyer i TIEFighter przyjmujÄ w konstruktorze
+Klasy DeathStar, ImperialDestroyer i TIEFighter przyjmują w konstruktorze
 parametry shield oraz attackPower typu U.
 
-Klasy DeathStar, ImperialDestroyer i TIEFighter udostÄpniajÄ metody publiczne:
-U getShield() â zwraca wytrzymaĹoĹci tarczy,
-U getAttackPower() â zwraca siĹÄ ataku statku,
-void takeDamage(U damage) â zmniejsza wytrzymaĹoĹci tarczy o damage, ale nie
-wiÄcej niĹź statek ma aktualnie.
+Klasy DeathStar, ImperialDestroyer i TIEFighter udostępniają metody publiczne:
+U getShield() – zwraca wytrzymałości tarczy,
+U getAttackPower() – zwraca siłę ataku statku,
+void takeDamage(U damage) – zmniejsza wytrzymałości tarczy o damage, ale nie
+więcej niż statek ma aktualnie.
 
-Klasy DeathStar, ImperialDestroyer i TIEFighter majÄ publicznÄ skĹadowÄ
-valueType reprezentujÄcÄ typ U, ktĂłrym zostaĹy sparametryzowane.
+Klasy DeathStar, ImperialDestroyer i TIEFighter mają publiczną składową
+valueType reprezentującą typ U, którym zostały sparametryzowane.
 
-Dodatkowo trzeba stworzyÄ funkcjÄ, ktĂłra umoĹźliwi statkowi Imperium zaatakowanie
+Dodatkowo trzeba stworzyć funkcję, która umożliwi statkowi Imperium zaatakowanie
 wybranego statku Rebelii:
-void attack<I, R>(I imperialShip, R rebelShip) â wykonuje atak na statek
-Rebelii, obniĹźajÄc wytrzymaĹoĹÄ jego tarczy. NaleĹźy teĹź uwzglÄdniÄ specjalny
-przypadek, gdy R = StarCruiser<T> lub R = XWing<T> â wtedy atak nastÄpuje w dwie
-strony â wytrzymaĹoĹÄ tarczy jest obniĹźana zarĂłwno statkowi Rebelii, jak
+void attack<I, R>(I imperialShip, R rebelShip) – wykonuje atak na statek
+Rebelii, obniżając wytrzymałość jego tarczy. Należy też uwzględnić specjalny
+przypadek, gdy R = StarCruiser<T> lub R = XWing<T> – wtedy atak następuje w dwie
+strony – wytrzymałość tarczy jest obniżana zarówno statkowi Rebelii, jak
 i statkowi Imperium.
 
-Szablony klas DeathStar, ImperialDestroyer i TIEFighter powinny byÄ
-specjalizacjÄ ogĂłlniejszego szablonu ImperialStarship<typename U, ...>.
+Szablony klas DeathStar, ImperialDestroyer i TIEFighter powinny być
+specjalizacją ogólniejszego szablonu ImperialStarship<typename U, ...>.
 
 = Plik battle.h =
 
 Klasa SpaceBattle<typename T, t0, T t1, typename... S>, gdzie:
-T â typ przechowujÄcy czas,
-t0 â czas startowy,
-t1 â czas koĹcowy, po ktĂłrego przekroczeniu nastÄpuje wyzerowanie licznika,
-S... â typy statkĂłw.
-NaleĹźy sprawdzaÄ poprawnoĹÄ parametrĂłw t0 i t1 w czasie kompilacji.
+T – typ przechowujący czas,
+t0 – czas startowy,
+t1 – czas końcowy, po którego przekroczeniu następuje wyzerowanie licznika,
+S... – typy statków.
+Należy sprawdzać poprawność parametrów t0 i t1 w czasie kompilacji.
 
-Klasa SpaceBattle przyjmuje w konstruktorze kolejno obiekty reprezentujÄce
-statki biorÄce udziaĹ w bitwie.
+Klasa SpaceBattle przyjmuje w konstruktorze kolejno obiekty reprezentujące
+statki biorące udział w bitwie.
 
-Klasa SpaceBattle udostÄpnia metody publiczne:
-size_t countImperialFleet() â zwraca liczbÄ niezniszczonych statkĂłw Imperium;
-size_t countRebelFleet() - zwraca liczbÄ niezniszczonych statkĂłw Rebelii;
-void tick(T timeStep) â na poczÄtku sprawdza aktualny czas; jeĹli jest to
-czas ataku, to nastÄpuje atak statkĂłw Imperium na statki Rebelii; na koniec czas
-przesuwa siÄ o timeStep.
+Klasa SpaceBattle udostępnia metody publiczne:
+size_t countImperialFleet() – zwraca liczbę niezniszczonych statków Imperium;
+size_t countRebelFleet() - zwraca liczbę niezniszczonych statków Rebelii;
+void tick(T timeStep) – na początku sprawdza aktualny czas; jeśli jest to
+czas ataku, to następuje atak statków Imperium na statki Rebelii; na koniec czas
+przesuwa się o timeStep.
 
-SpaceBattle rozgrywa siÄ w czasie miÄdzygwiezdnym. Czas liczony jest
-w sekundach, od sekundy 0 do sekundy t1 i potem znĂłw od sekundy 0, i tak
-cyklicznie. Pierwsze odliczanie zaczyna siÄ od sekundy t0. Ze wzglÄdu na
-zakĹĂłcenia magnetyczne statki mogÄ atakowaÄ tylko w sekundach bÄdÄcych
-kwadratami liczb caĹkowitych. Obliczenie wszystkich potrzebnych liczb
-reprezentujÄcych sekundy ataku i ich zapamiÄtanie w odpowiedniej kolekcji musi
-odbyÄ siÄ w czasie kompilacji.
+SpaceBattle rozgrywa się w czasie międzygwiezdnym. Czas liczony jest
+w sekundach, od sekundy 0 do sekundy t1 i potem znów od sekundy 0, i tak
+cyklicznie. Pierwsze odliczanie zaczyna się od sekundy t0. Ze względu na
+zakłócenia magnetyczne statki mogą atakować tylko w sekundach będących
+kwadratami liczb całkowitych. Obliczenie wszystkich potrzebnych liczb
+reprezentujących sekundy ataku i ich zapamiętanie w odpowiedniej kolekcji musi
+odbyć się w czasie kompilacji.
 
-Ataki podczas bitwy odbywajÄ siÄ sekwencyjnie. W sekundzie ataku kaĹźdy
+Ataki podczas bitwy odbywają się sekwencyjnie. W sekundzie ataku każdy
 niezniszczony statek imperialny po kolei atakuje wszystkie niezniszczone statki
-rebelianckie, czyli ma miejsce nastÄpujÄca sekwencja zdarzeĹ:
+rebelianckie, czyli ma miejsce następująca sekwencja zdarzeń:
 
-dla kaĹźdego statku Imperium
-  dla kaĹźdego statku Rebelii
-    jeĹli oba statki nie nie zostaĹy jeszcze zniszczone,
+dla każdego statku Imperium
+  dla każdego statku Rebelii
+    jeśli oba statki nie nie zostały jeszcze zniszczone,
       statek Imperium atakuje statek Rebelii.
 
-KolejnoĹÄ atakowania (iterowania) jest zgodna z kolejnoĹciÄ, w jakiej statki
-zostaĹy przekazane w konstruktorze. JeĹli zaatakowana jednostka rebeliancka moĹźe
-siÄ broniÄ (ma parametr attackPower), to wtedy obraĹźenia zadawane sÄ
-âjednoczeĹnieâ i oba statki odnoszÄ odpowiednie obraĹźenia zgodnie z siĹami ataku.
-Statek zostaje zniszczony, jeĹli wytrzymaĹoĹÄ jego tarczy spadnie do zera.
+Kolejność atakowania (iterowania) jest zgodna z kolejnością, w jakiej statki
+zostały przekazane w konstruktorze. Jeśli zaatakowana jednostka rebeliancka może
+się bronić (ma parametr attackPower), to wtedy obrażenia zadawane są
+„jednocześnie” i oba statki odnoszą odpowiednie obrażenia zgodnie z siłami ataku.
+Statek zostaje zniszczony, jeśli wytrzymałość jego tarczy spadnie do zera.
 
-WywoĹanie tick() na bitwie, podczas gdy wszystkie statki Imperium zostaĹy
-zniszczone, powoduje wypisanie na standardowe wyjĹcie napisu "REBELLION WON\n".
-WywoĹanie tick() na bitwie, podczas gdy wszystkie statki Rebelii zostaĹy
-zniszczone, powoduje wypisanie na standardowe wyjĹcie napisu "IMPERIUM WON\n".
-JeĹli wszystkie statki zarĂłwno Imperium jak i Rebelii sÄ zniszczone, to zostaje
+Wywołanie tick() na bitwie, podczas gdy wszystkie statki Imperium zostały
+zniszczone, powoduje wypisanie na standardowe wyjście napisu "REBELLION WON\n".
+Wywołanie tick() na bitwie, podczas gdy wszystkie statki Rebelii zostały
+zniszczone, powoduje wypisanie na standardowe wyjście napisu "IMPERIUM WON\n".
+Jeśli wszystkie statki zarówno Imperium jak i Rebelii są zniszczone, to zostaje
 wypisany napis "DRAW\n".
 
 = Wymagania formalne =
 
-W tym zadaniu wymagane jest uĹźycie kompilatora Clang, ktĂłry wypisuje bardzo
-szczegĂłĹowe komunikaty o bĹÄdach w przypadku korzystania z szablonĂłw
-i metaprogramowania. RozwiÄzanie bÄdzie kompilowane za pomocÄ polecenia
+W tym zadaniu wymagane jest użycie kompilatora Clang, który wypisuje bardzo
+szczegółowe komunikaty o błędach w przypadku korzystania z szablonów
+i metaprogramowania. Rozwiązanie będzie kompilowane za pomocą polecenia
 
 clang -Wall -Wextra -std=c++17 -O2 -lstdc++
 
-PrzykĹad uĹźycia znajduje siÄ w pliku starwars_example.cc.
+Przykład użycia znajduje się w pliku starwars_example.cc.
 
-RozwiÄzanie powinno zawieraÄ pliki rebelfleet.h, imperialfleet.h, battle.h.
-Pliki te naleĹźy umieĹciÄ w repozytorium w katalogu
+Rozwiązanie powinno zawierać pliki rebelfleet.h, imperialfleet.h, battle.h.
+Pliki te należy umieścić w repozytorium w katalogu
 
 grupaN/zadanie4/ab123456+cd123456
 
@@ -131,9 +131,10 @@ lub
 
 grupaN/zadanie4/ab123456+cd123456+ef123456
 
-gdzie N jest numerem grupy, a ab123456, cd123456, ef123456 sÄ identyfikatorami
-czĹonkĂłw zespoĹu umieszczajÄcego to rozwiÄzanie. Katalog z rozwiÄzaniem nie
-powinien zawieraÄ innych plikĂłw, ale moĹźe zawieraÄ podkatalog prywatne, gdzie
-moĹźna umieszczaÄ rĂłĹźne pliki, np. swoje testy. Pliki umieszczone w tym
-podkatalogu nie bÄdÄ oceniane. Nie wolno umieszczaÄ w repozytorium plikĂłw
-duĹźych, binarnych, tymczasowych (np. *.o) ani innych zbÄdnych.
+gdzie N jest numerem grupy, a ab123456, cd123456, ef123456 są identyfikatorami
+członków zespołu umieszczającego to rozwiązanie. Katalog z rozwiązaniem nie
+powinien zawierać innych plików, ale może zawierać podkatalog prywatne, gdzie
+można umieszczać różne pliki, np. swoje testy. Pliki umieszczone w tym
+podkatalogu nie będą oceniane. Nie wolno umieszczać w repozytorium plików
+dużych, binarnych, tymczasowych (np. *.o) ani innych zbędnych.
+

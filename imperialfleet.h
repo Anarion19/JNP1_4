@@ -5,15 +5,27 @@
 #ifndef JNP1_4_IMPERIALFLEET_H
 #define JNP1_4_IMPERIALFLEET_H
 
-template <typename U>
-class ImperialStarship
-{
+#include "rebelfleet.h"
+
+template<typename U>
+class ImperialStarship {
 private:
     U shield, attackPower;
-    bool isAlive = true;
+protected:
+    ImperialStarship() = default;
+
 public:
-    template <typename T, T t0, T t1, typename... S>
-    friend class SpaceBattle;
+    ImperialStarship &operator-=(const XWing<U> &a) {
+        takeDamage(a.getAttackPower());
+        return *this;
+    }
+
+    ImperialStarship &operator-=(const StarCruiser<U> &a) {
+        takeDamage(a.getAttackPower());
+        return *this;
+    }
+
+    typedef U valueType;
 
     ImperialStarship(U shield, U attackPower) : shield(shield), attackPower(attackPower) {}
 
@@ -21,17 +33,57 @@ public:
 
     U getAttackPower() const { return attackPower; }
 
-    void takeDamage(U damage)
-    {
-        if(isAlive)
-        {
-            if (damage < shield)
-            {
-                shield -= damage;
-            } else {
-                isAlive = false;
-            }
+    void takeDamage(U damage) {
+        if (damage < shield) {
+            shield -= damage;
+        } else {
+            shield = 0;
         }
     }
 };
+
+template<typename U>
+class DeathStar : public ImperialStarship<U> {
+public:
+//    template<typename I, typename R>
+//    friend void attack(I &imperialShip, R &rebelShip);
+
+    DeathStar(U shield, U attackPower) : ImperialStarship<U>(shield, attackPower) {}
+};
+
+template<typename U>
+class ImperialDestroyer : public ImperialStarship<U> {
+public:
+//    template<typename I, typename R>
+//    friend void attack(I &imperialShip, R &rebelShip);
+
+    ImperialDestroyer(U shield, U attackPower) : ImperialStarship<U>(shield, attackPower) {}
+};
+
+template<typename U>
+class TIEFighter : public ImperialStarship<U> {
+public:
+//    template<typename I, typename R>
+//    friend void attack(I &imperialShip, R &rebelShip);
+
+    TIEFighter(U shield, U attackPower) : ImperialStarship<U>(shield, attackPower) {}
+};
+
+template<typename I, typename R>
+void attack(I &imperialShip, R &rebelShip) {
+    rebelShip -= imperialShip;
+}
+
+template<typename I, typename U>
+void attack(I &imperialShip, XWing<U> &rebelShip) {
+    rebelShip -= imperialShip;
+    imperialShip -= rebelShip;
+}
+
+template<typename I, typename U>
+void attack(I &imperialShip, StarCruiser<U> &rebelShip) {
+    rebelShip -= imperialShip;
+    imperialShip -= rebelShip;
+}
+
 #endif //JNP1_4_IMPERIALFLEET_H

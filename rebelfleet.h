@@ -1,13 +1,11 @@
-//
-// Created by kacper on 24.11.18.
-//
-
 #ifndef PROJECT_REBELFLEET_H
 #define PROJECT_REBELFLEET_H
 
 #include <cassert>
-#include "imperialfleet.h"
-
+//#include "imperialfleet.h"
+//@TODO poprawić te include, żeby nie było problemów ze sprawdzaniem ifndef
+//@TODO wyrzucić wszystkie stałe z kodu
+//@TODO przy sprawdzaniu ich poprawności użyć rzutowania statycznego: static_cast<>()
 template<typename U>
 class ImperialStarship;
 
@@ -19,10 +17,10 @@ protected:
     RebelStarship() = default;
 
 public:
-    RebelStarship &operator-=(const ImperialStarship<U> &a) {
+    /*RebelStarship &operator-=(const ImperialStarship<U> &a) {
         takeDamage(a.getAttackPower());
         return *this;
-    }
+    }*/
 
     typedef U valueType;
 
@@ -56,7 +54,7 @@ private:
 public:
 //    template <typename I, typename R>
 //    friend void attack(I & imperialShip, R & rebelShip);
-    XWing(U attackPower, U shield, U speed) {
+    XWing(U shield, U speed, U attackPower) {
         assert((speed >= 299796) && (speed <= 2997960));
         this->attackPower = attackPower;
         this->shield = shield;
@@ -73,7 +71,7 @@ private:
 public:
 //    template <typename I, typename R>
 //    friend void attack(I & imperialShip, R & rebelShip);
-    StarCruiser(U attackPower, U shield, U speed) {
+    StarCruiser(U shield, U speed, U attackPower) {
         assert((speed >= 99999) && (speed <= 299795));
         this->attackPower = attackPower;
         this->shield = shield;

@@ -1,12 +1,10 @@
-//
-// Created by kacper on 24.11.18.
-//
-
 #ifndef JNP1_4_IMPERIALFLEET_H
 #define JNP1_4_IMPERIALFLEET_H
 
-#include "rebelfleet.h"
-
+//#include "rebelfleet.h"
+//@TODO poprawić te include, żeby nie było problemów ze sprawdzaniem ifndef
+//@TODO wyrzucić wszystkie stałe z kodu
+//@TODO przy sprawdzaniu ich poprawności użyć rzutowania statycznego: static_cast<>()
 template<typename U>
 class ImperialStarship {
 private:
@@ -15,7 +13,7 @@ protected:
     ImperialStarship() = default;
 
 public:
-    ImperialStarship &operator-=(const XWing<U> &a) {
+/*    ImperialStarship &operator-=(const XWing<U> &a) {
         takeDamage(a.getAttackPower());
         return *this;
     }
@@ -23,7 +21,7 @@ public:
     ImperialStarship &operator-=(const StarCruiser<U> &a) {
         takeDamage(a.getAttackPower());
         return *this;
-    }
+    }*/
 
     typedef U valueType;
 

@@ -13,12 +13,14 @@ private:
 
 public:
     typedef U valueType;
-    
+
+    // Konstruktor dla statków które nie mogą atakować.
 	template<typename P = U, typename = typename std::enable_if<!attacking>>
 	RebelStarship(P shield, P speed) : shield(shield), speed(speed) {
 		assert((static_cast<P>(minSpeed) <= speed) && (static_cast<P>(maxSpeed) >= speed));
 	}
 
+	// Konstruktor dla statków które mogą atakować.
     template<typename P = U, typename = typename std::enable_if<attacking>>
     RebelStarship(P shield, P speed, P attackPower) : shield(shield), speed(speed), attackPower(attackPower) {
         assert((static_cast<P>(minSpeed) <= speed) && (static_cast<P>(maxSpeed) >= speed));
@@ -39,7 +41,7 @@ public:
         }
     }
 };
-
+// Specjalizacje ogólnego szablonu statku Rebelii.
 template<typename U>
 using Explorer = RebelStarship<U, false, 299796, 2997960>;
 

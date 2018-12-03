@@ -28,6 +28,7 @@ public:
     }
 };
 
+// Specjalizacje ogólnego szablonu statku Imperium.
 template<typename U>
 using DeathStar = ImperialStarship<U>;
 
@@ -37,10 +38,10 @@ using ImperialDestroyer = ImperialStarship<U>;
 template<typename U>
 using TIEFighter = ImperialStarship<U>;
 
+// Wykonanie ataku między statkami Imperium, a Rebelii.
 template<typename I, typename U>
 void attack(ImperialStarship<I> &imperialShip, Explorer <U> &rebelShip) {
-    std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
-              imperialShip.getAttackPower() << " Explorera o tarczy: " << rebelShip.getShield() << std::endl;
+    // Sprawdzenie czy oba statki żyją.
     if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {
         rebelShip.takeDamage(imperialShip.getAttackPower());
     }
@@ -48,8 +49,7 @@ void attack(ImperialStarship<I> &imperialShip, Explorer <U> &rebelShip) {
 
 template<typename I, typename U>
 void attack(ImperialStarship<I> &imperialShip, XWing <U> &rebelShip) {
-    std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
-              imperialShip.getAttackPower() << " XWinga o tarczy: " << rebelShip.getShield() << std::endl;
+
     if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {
         rebelShip.takeDamage(imperialShip.getAttackPower());
         imperialShip.takeDamage(rebelShip.getAttackPower());
@@ -59,17 +59,15 @@ void attack(ImperialStarship<I> &imperialShip, XWing <U> &rebelShip) {
 
 template<typename I, typename U>
 void attack(ImperialStarship<I> &imperialShip, StarCruiser <U> &rebelShip) {
-    std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
-              imperialShip.getAttackPower() << " StarCruisera o tarczy: " << rebelShip.getShield() << std::endl;
+
     if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {
         rebelShip.takeDamage(imperialShip.getAttackPower());
         imperialShip.takeDamage(rebelShip.getAttackPower());
     }
 }
-
+// Jeśli przesłane są inne parametry to nie robi nic.
 template<typename I, typename R>
 void attack(I &imperialShip, R &rebelShip) {
-    std::cout << "nie atakuje2:" << std::endl;
     (void) imperialShip;
     (void) rebelShip;
 }

@@ -2,14 +2,12 @@
 #define JNP1_4_IMPERIALFLEET_H
 
 #include <iostream>
-#include "rebel.h"
-//@TODO poprawić te include, żeby nie było problemów ze sprawdzaniem ifndef
-//@TODO wyrzucić wszystkie stałe z kodu
-//@TODO przy sprawdzaniu ich poprawności użyć rzutowania statycznego: static_cast<>()
+
 template<typename U>
 class ImperialStarship {
 private:
     U shield, attackPower;
+
     ImperialStarship() = default;
 
 public:
@@ -40,7 +38,7 @@ template<typename U>
 using TIEFighter = ImperialStarship<U>;
 
 template<typename I, typename U>
-void attack(ImperialStarship<I> &imperialShip, Explorer<U> &rebelShip) {
+void attack(ImperialStarship<I> &imperialShip, Explorer <U> &rebelShip) {
     std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
               imperialShip.getAttackPower() << " Explorera o tarczy: " << rebelShip.getShield() << std::endl;
     if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {
@@ -49,7 +47,7 @@ void attack(ImperialStarship<I> &imperialShip, Explorer<U> &rebelShip) {
 }
 
 template<typename I, typename U>
-void attack(ImperialStarship<I> &imperialShip, XWing<U> &rebelShip) {
+void attack(ImperialStarship<I> &imperialShip, XWing <U> &rebelShip) {
     std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
               imperialShip.getAttackPower() << " XWinga o tarczy: " << rebelShip.getShield() << std::endl;
     if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {
@@ -60,7 +58,7 @@ void attack(ImperialStarship<I> &imperialShip, XWing<U> &rebelShip) {
 }
 
 template<typename I, typename U>
-void attack(ImperialStarship<I> &imperialShip, StarCruiser<U> &rebelShip) {
+void attack(ImperialStarship<I> &imperialShip, StarCruiser <U> &rebelShip) {
     std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
               imperialShip.getAttackPower() << " StarCruisera o tarczy: " << rebelShip.getShield() << std::endl;
     if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {

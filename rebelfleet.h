@@ -3,31 +3,28 @@
 
 #include <cassert>
 #include <utility>
-//#include "imperialfleet.h"
-//@TODO poprawić te include, żeby nie było problemów ze sprawdzaniem ifndef
-//@TODO wyrzucić wszystkie stałe z kodu
-//@TODO przy sprawdzaniu ich poprawności użyć rzutowania statycznego: static_cast<>()
 
-template <typename U, bool attacking = false, int minSpeed = 299796, int maxSpeed = 2997960>
+template<typename U, bool attacking, int minSpeed, int maxSpeed>
 class RebelStarship {
 private:
     U shield, speed, attackPower;
+
     RebelStarship() = default;
 
 public:
     typedef U valueType;
 
-    RebelStarship(U shield, U speed) : shield(shield), speed(speed) {
-        assert((static_cast<int>(speed) >= minSpeed) && (static_cast<int>(speed) <= maxSpeed));
-    }
+    template<typename U, typename U, typename = typename std::enable_if<attacking>>
     RebelStarship(U shield, U speed, U attackPower) : shield(shield), speed(speed), attackPower(attackPower) {
-        assert((static_cast<int>(speed) >= minSpeed) && (static_cast<int>(speed) <= maxSpeed));
+        static_assert(attacking, "This ship cannot attack");
+        assert((static_cast<U>(minSpeed) =< speed) && (static_cast<U>(maxSpeed) >= speed));
     }
 
     U getShield() const { return shield; }
 
     U getSpeed() const { return speed; }
-    template <typename = typename std::enable_if<attacking>>
+
+    template<typename = typename std::enable_if<attacking>>
     U getAttackPower() const { return attackPower; }
 
     void takeDamage(U damage) {

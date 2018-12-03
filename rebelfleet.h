@@ -13,11 +13,15 @@ private:
 
 public:
     typedef U valueType;
+    
+	template<typename P = U, typename = typename std::enable_if<!attacking>>
+	RebelStarship(P shield, P speed) : shield(shield), speed(speed) {
+		assert((static_cast<P>(minSpeed) <= speed) && (static_cast<P>(maxSpeed) >= speed));
+	}
 
-    template<typename U, typename U, typename = typename std::enable_if<attacking>>
-    RebelStarship(U shield, U speed, U attackPower) : shield(shield), speed(speed), attackPower(attackPower) {
-        static_assert(attacking, "This ship cannot attack");
-        assert((static_cast<U>(minSpeed) =< speed) && (static_cast<U>(maxSpeed) >= speed));
+    template<typename P = U, typename = typename std::enable_if<attacking>>
+    RebelStarship(P shield, P speed, P attackPower) : shield(shield), speed(speed), attackPower(attackPower) {
+        assert((static_cast<P>(minSpeed) <= speed) && (static_cast<P>(maxSpeed) >= speed));
     }
 
     U getShield() const { return shield; }

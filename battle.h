@@ -29,17 +29,17 @@ private:
         while (size * size <= limit) size++;
         return size;
     }
-
-    static constexpr std::array<T, countAttackTimesSize(t1)> getAttackTimes(T t) {
-        static constexpr std::array<T, countAttackTimesSize(t1)> array{};
-        auto it = array.begin();
-        for (T i = 0; i * i <= t; ++i) {
-            *it++ = i * i;
+    
+	template <typename U = T, size_t size>
+    static constexpr std::array<U, size> getAttackTimes() {
+        std::array<U, size> array{};
+        for (size_t i = 0; i < array.size(); ++i) {
+            array[i] = i * i;
         }
         return array;
     }
 
-    static constexpr std::array<T, countAttackTimesSize(t1)> attackTimes = getAttackTimes(t1);
+    static constexpr auto attackTimes = getAttackTimes<T, countAttackTimesSize(t1)>();
 
     bool attackTime(T actTime) const {
         for (auto time : attackTimes)
@@ -60,7 +60,7 @@ private:
     }
 
     void doAttack() {
-        std::apply([this](auto &...x) { (..., attackSingle(x)); }, fleet);
+        std::apply([&](auto &...x) { (..., attackSingle(x)); }, fleet);
     }
 
     template<typename U>
@@ -71,11 +71,13 @@ private:
 
     template<typename U>
     void countImperial(size_t &count, U ship) {
+		(void) count;
         (void) ship;
     }
 
     template<typename U>
     void countRebel(size_t &count, ImperialStarship <U> ship) {
+		(void) count;
         (void) ship;
     }
 
@@ -95,13 +97,13 @@ public:
 
     size_t countImperialFleet() {
         size_t impShips = 0;
-        std::apply([&](auto ...x) { (..., countImperial(&impShips, x)); }, fleet);
+        std::apply([&](auto ...x) { (..., countImperial(impShips, x)); }, fleet);
         return impShips;
     }
 
     size_t countRebelFleet() {
         size_t rebShips = 0;
-        std::apply([&](auto ...x) { (..., countRebel(&rebShips, x)); }, fleet);
+        std::apply([&](auto ...x) { (..., countRebel(rebShips, x)); }, fleet);
         return rebShips;
     }
 
@@ -115,8 +117,6 @@ public:
             std::cout << "REBELLION WON" << std::endl;
         } else if (attackTime(actTime)) {
                 doAttack();
-                printState();
-            }
         }
         actTime = (actTime + timeStep) % endTime;
     }

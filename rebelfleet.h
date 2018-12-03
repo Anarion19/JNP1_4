@@ -2,33 +2,33 @@
 #define PROJECT_REBELFLEET_H
 
 #include <cassert>
+#include <utility>
 //#include "imperialfleet.h"
 //@TODO poprawić te include, żeby nie było problemów ze sprawdzaniem ifndef
 //@TODO wyrzucić wszystkie stałe z kodu
 //@TODO przy sprawdzaniu ich poprawności użyć rzutowania statycznego: static_cast<>()
-template<typename U>
-class ImperialStarship;
 
-template<typename U>
+template <typename U, bool attacking = false, int minSpeed = 299796, int maxSpeed = 2997960>
 class RebelStarship {
-protected:
-    U shield, speed;
-
+private:
+    U shield, speed, attackPower;
     RebelStarship() = default;
 
 public:
-    /*RebelStarship &operator-=(const ImperialStarship<U> &a) {
-        takeDamage(a.getAttackPower());
-        return *this;
-    }*/
-
     typedef U valueType;
 
-    RebelStarship(U shield, U speed) : shield(shield), speed(speed) {}
+    RebelStarship(U shield, U speed) : shield(shield), speed(speed) {
+        assert((static_cast<int>(speed) >= minSpeed) && (static_cast<int>(speed) <= maxSpeed));
+    }
+    RebelStarship(U shield, U speed, U attackPower) : shield(shield), speed(speed), attackPower(attackPower) {
+        assert((static_cast<int>(speed) >= minSpeed) && (static_cast<int>(speed) <= maxSpeed));
+    }
 
     U getShield() const { return shield; }
 
     U getSpeed() const { return speed; }
+    template <typename = typename std::enable_if<attacking>>
+    U getAttackPower() const { return attackPower; }
 
     void takeDamage(U damage) {
         if (damage < shield) {
@@ -40,45 +40,12 @@ public:
 };
 
 template<typename U>
-class Explorer : public RebelStarship<U> {
-public:
-//    template <typename I, typename R>
-//    friend void attack(I & imperialShip, R & rebelShip);
-    Explorer(U shield, U speed) : RebelStarship<U>(shield, speed) {}
-};
+using Explorer = RebelStarship<U, false, 299796, 2997960>;
 
 template<typename U>
-class XWing : public RebelStarship<U> {
-private:
-    U attackPower;
-public:
-//    template <typename I, typename R>
-//    friend void attack(I & imperialShip, R & rebelShip);
-    XWing(U shield, U speed, U attackPower) {
-        assert((speed >= 299796) && (speed <= 2997960));
-        this->attackPower = attackPower;
-        this->shield = shield;
-        this->speed = speed;
-    }
-
-    U getAttackPower() const { return attackPower; }
-};
+using XWing = RebelStarship<U, true, 299796, 2997960>;
 
 template<typename U>
-class StarCruiser : public RebelStarship<U> {
-private:
-    U attackPower;
-public:
-//    template <typename I, typename R>
-//    friend void attack(I & imperialShip, R & rebelShip);
-    StarCruiser(U shield, U speed, U attackPower) {
-        assert((speed >= 99999) && (speed <= 299795));
-        this->attackPower = attackPower;
-        this->shield = shield;
-        this->speed = speed;
-    }
-
-    U getAttackPower() const { return attackPower; }
-};
+using StarCruiser = RebelStarship<U, true, 99999, 299795>;
 
 #endif //PROJECT_REBELFLEET_H

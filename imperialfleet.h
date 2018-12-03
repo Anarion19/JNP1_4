@@ -1,7 +1,8 @@
 #ifndef JNP1_4_IMPERIALFLEET_H
 #define JNP1_4_IMPERIALFLEET_H
 
-//#include "rebelfleet.h"
+#include <iostream>
+#include "rebel.h"
 //@TODO poprawić te include, żeby nie było problemów ze sprawdzaniem ifndef
 //@TODO wyrzucić wszystkie stałe z kodu
 //@TODO przy sprawdzaniu ich poprawności użyć rzutowania statycznego: static_cast<>()
@@ -9,20 +10,9 @@ template<typename U>
 class ImperialStarship {
 private:
     U shield, attackPower;
-protected:
     ImperialStarship() = default;
 
 public:
-/*    ImperialStarship &operator-=(const XWing<U> &a) {
-        takeDamage(a.getAttackPower());
-        return *this;
-    }
-
-    ImperialStarship &operator-=(const StarCruiser<U> &a) {
-        takeDamage(a.getAttackPower());
-        return *this;
-    }*/
-
     typedef U valueType;
 
     ImperialStarship(U shield, U attackPower) : shield(shield), attackPower(attackPower) {}
@@ -41,47 +31,50 @@ public:
 };
 
 template<typename U>
-class DeathStar : public ImperialStarship<U> {
-public:
-//    template<typename I, typename R>
-//    friend void attack(I &imperialShip, R &rebelShip);
-
-    DeathStar(U shield, U attackPower) : ImperialStarship<U>(shield, attackPower) {}
-};
+using DeathStar = ImperialStarship<U>;
 
 template<typename U>
-class ImperialDestroyer : public ImperialStarship<U> {
-public:
-//    template<typename I, typename R>
-//    friend void attack(I &imperialShip, R &rebelShip);
-
-    ImperialDestroyer(U shield, U attackPower) : ImperialStarship<U>(shield, attackPower) {}
-};
+using ImperialDestroyer = ImperialStarship<U>;
 
 template<typename U>
-class TIEFighter : public ImperialStarship<U> {
-public:
-//    template<typename I, typename R>
-//    friend void attack(I &imperialShip, R &rebelShip);
+using TIEFighter = ImperialStarship<U>;
 
-    TIEFighter(U shield, U attackPower) : ImperialStarship<U>(shield, attackPower) {}
-};
+template<typename I, typename U>
+void attack(ImperialStarship<I> &imperialShip, Explorer<U> &rebelShip) {
+    std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
+              imperialShip.getAttackPower() << " Explorera o tarczy: " << rebelShip.getShield() << std::endl;
+    if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {
+        rebelShip.takeDamage(imperialShip.getAttackPower());
+    }
+}
+
+template<typename I, typename U>
+void attack(ImperialStarship<I> &imperialShip, XWing<U> &rebelShip) {
+    std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
+              imperialShip.getAttackPower() << " XWinga o tarczy: " << rebelShip.getShield() << std::endl;
+    if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {
+        rebelShip.takeDamage(imperialShip.getAttackPower());
+        imperialShip.takeDamage(rebelShip.getAttackPower());
+    }
+
+}
+
+template<typename I, typename U>
+void attack(ImperialStarship<I> &imperialShip, StarCruiser<U> &rebelShip) {
+    std::cout << "statek z tarcza: " << imperialShip.getShield() << " atakuje z sila: " <<
+              imperialShip.getAttackPower() << " StarCruisera o tarczy: " << rebelShip.getShield() << std::endl;
+    if (rebelShip.getShield() > 0 && imperialShip.getShield() > 0) {
+        rebelShip.takeDamage(imperialShip.getAttackPower());
+        imperialShip.takeDamage(rebelShip.getAttackPower());
+    }
+}
 
 template<typename I, typename R>
 void attack(I &imperialShip, R &rebelShip) {
-    rebelShip -= imperialShip;
+    std::cout << "nie atakuje2:" << std::endl;
+    (void) imperialShip;
+    (void) rebelShip;
 }
 
-template<typename I, typename U>
-void attack(I &imperialShip, XWing<U> &rebelShip) {
-    rebelShip -= imperialShip;
-    imperialShip -= rebelShip;
-}
-
-template<typename I, typename U>
-void attack(I &imperialShip, StarCruiser<U> &rebelShip) {
-    rebelShip -= imperialShip;
-    imperialShip -= rebelShip;
-}
 
 #endif //JNP1_4_IMPERIALFLEET_H
